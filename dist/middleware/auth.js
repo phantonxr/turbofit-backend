@@ -8,7 +8,7 @@ function auth(req, res, next) {
     const token = header.slice('Bearer '.length);
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = { id: payload.sub };
+        req.user = { id: payload.sub, role: payload.role || 'user' };
         return next();
     }
     catch {

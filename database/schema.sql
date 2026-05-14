@@ -11,6 +11,7 @@ create table if not exists users (
   pain_notes text,
   subscription_status text not null default 'inactive',
   stripe_customer_id text,
+  role text not null default 'user',
   created_at timestamp not null default now()
 );
 

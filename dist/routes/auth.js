@@ -27,9 +27,9 @@ router.post('/register', async (req, res, next) => {
         const passwordHash = await bcrypt.hash(data.password, 10);
         const { rows } = await query(`insert into users (id, name, email, password_hash, main_goal, pain_notes)
        values (gen_random_uuid(), $1, $2, $3, $4, $5)
-       returning id, name, email, main_goal, pain_notes, subscription_status, created_at`, [data.name, data.email.toLowerCase(), passwordHash, data.main_goal, data.pain_notes ?? null]);
+       returning id, name, email, main_goal, pain_notes, subscription_status, role, created_at`, [data.name, data.email.toLowerCase(), passwordHash, data.main_goal, data.pain_notes ?? null]);
         const user = rows[0];
-        const token = jwt.sign({}, process.env.JWT_SECRET, { subject: user.id, expiresIn: '30d' });
+        const token = jwt.sign({ role: user.role }, process.env.JWT_SECRET, { subject: user.id, expiresIn: '30d' });
         return res.status(201).json({ token, user });
     }
     catch (err) {
@@ -46,7 +46,7 @@ const LoginSchema = z.object({
 router.post('/login', async (req, res, next) => {
     try {
         const data = LoginSchema.parse(req.body);
-        const { rows } = await query('select id, name, email, password_hash, main_goal, pain_notes, subscription_status from users where email = $1', [
+        const { rows } = await query('select id, name, email, password_hash, main_goal, pain_notes, subscription_status, role from users where email = $1', [
             data.email.toLowerCase(),
         ]);
         const user = rows[0];
@@ -55,7 +55,7 @@ router.post('/login', async (req, res, next) => {
         const ok = await bcrypt.compare(data.password, user.password_hash);
         if (!ok)
             return res.status(401).json({ error: 'E-mail ou senha inválidos' });
-        const token = jwt.sign({}, process.env.JWT_SECRET, { subject: user.id, expiresIn: '30d' });
+        const token = jwt.sign({ role: user.role }, process.env.JWT_SECRET, { subject: user.id, expiresIn: '30d' });
         delete user.password_hash;
         return res.json({ token, user });
     }

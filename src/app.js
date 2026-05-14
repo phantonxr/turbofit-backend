@@ -11,6 +11,7 @@ const videoRoutes = require('./routes/videos');
 const stripeRoutes = require('./routes/stripe');
 const subscriptionRoutes = require('./routes/subscription');
 const aiRoutes = require('./routes/ai');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(videoRoutes);
 app.use(stripeRoutes);
 app.use(subscriptionRoutes);
 app.use(aiRoutes);
+app.use(adminRoutes);
 
 app.use((err, req, res, next) => {
   // eslint-disable-next-line no-console

@@ -17,7 +17,8 @@ insert into users (
   password_hash,
   main_goal,
   pain_notes,
-  subscription_status
+  subscription_status,
+  role
 )
 values (
   gen_random_uuid(),
@@ -26,7 +27,8 @@ values (
   crypt('Admin@TurboPhan10', gen_salt('bf', 10)),
   'ganhar disposição',
   null,
-  'inactive'
+  'inactive',
+  'admin'
 )
 on conflict (email) do update
 set
@@ -34,7 +36,8 @@ set
   password_hash = excluded.password_hash,
   main_goal = excluded.main_goal,
   pain_notes = excluded.pain_notes,
-  subscription_status = 'inactive';
+  subscription_status = 'inactive',
+  role = 'admin';
 
 -- Opcional: ativar assinatura manualmente durante testes
 -- update users
