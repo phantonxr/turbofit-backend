@@ -60,7 +60,7 @@ router.post('/stripe/create-checkout-session', auth, async (req, res, next) =>
       mode: 'subscription',
       customer: customerId,
       line_items: [{ price: priceId, quantity: 1 }],
-      allow_promotion_codes: false,
+      allow_promotion_codes: true,
       success_url: `${frontendUrl}/dashboard?checkout=success`,
       cancel_url: `${frontendUrl}/dashboard?checkout=cancel`,
       metadata: {
