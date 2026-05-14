@@ -11,6 +11,7 @@ const videoRoutes = require('./routes/videos');
 const stripeRoutes = require('./routes/stripe');
 const subscriptionRoutes = require('./routes/subscription');
 const aiRoutes = require('./routes/ai');
+const measurementRoutes = require('./routes/measurements');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
@@ -38,6 +39,7 @@ app.use(videoRoutes);
 app.use(stripeRoutes);
 app.use(subscriptionRoutes);
 app.use(aiRoutes);
+app.use(measurementRoutes);
 app.use(adminRoutes);
 
 app.use((err, req, res, next) => {
