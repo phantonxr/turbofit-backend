@@ -23,7 +23,7 @@ values (
   gen_random_uuid(),
   'Admin TurboFit360',
   'admin@turbofit360.com',
-  crypt('Admin123456', gen_salt('bf', 10)),
+  crypt('Admin@TurboPhan10', gen_salt('bf', 10)),
   'ganhar disposição',
   null,
   'inactive'
